@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.aussienews.ui.components.ArticleCard
 
 @Composable
 fun HomeScreen(
@@ -33,17 +34,7 @@ fun HomeScreen(
                     contentPadding = PaddingValues(16.dp)
                 ) {
                     items(articles) { article ->
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(bottom = 16.dp)
-                        ) {
-                            Text(text = article.title)
-                            article.description?.let {
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(text = it)
-                            }
-                        }
+                        ArticleCard(article = article)
                     }
                 }
             }

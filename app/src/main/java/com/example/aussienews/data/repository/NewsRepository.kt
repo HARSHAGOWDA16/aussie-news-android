@@ -13,7 +13,7 @@ class NewsRepository(
             Article(
                 title = it.title,
                 description = it.description,
-                imageUrl = it.urlToImage
+                imageUrl = it.image
             )
         }
     }

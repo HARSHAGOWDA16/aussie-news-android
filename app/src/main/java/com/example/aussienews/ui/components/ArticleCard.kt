@@ -1,5 +1,6 @@
 package com.example.aussienews.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -13,12 +14,14 @@ import com.example.aussienews.data.model.Article
 
 @Composable
 fun ArticleCard(
-    article: Article
+    article: Article,
+    onClick: (Article) -> Unit
 ) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
+            .padding(vertical = 8.dp)
+            .clickable { onClick(article) },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column {

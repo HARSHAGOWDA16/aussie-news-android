@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.aussienews.data.model.Article
 import com.example.aussienews.ui.components.ArticleCard
 
 @Composable
@@ -18,12 +19,21 @@ fun HomeScreen(
 ) {
     val articles by viewModel.articles.collectAsState()
     val loading by viewModel.loading.collectAsState()
+    var selectedArticle by remember { mutableStateOf<Article?>(null) }
+
 
     Box(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         when {
+            selectedArticle != null -> {
+                ArticleDetailScreen(
+                    article = selectedArticle!!,
+                    onBack = { selectedArticle = null }
+                )
+            }
+
             loading -> {
                 CircularProgressIndicator()
             }
@@ -34,7 +44,10 @@ fun HomeScreen(
                     contentPadding = PaddingValues(16.dp)
                 ) {
                     items(articles) { article ->
-                        ArticleCard(article = article)
+                        ArticleCard(
+                            article = article,
+                            onClick = { selectedArticle = it }
+                        )
                     }
                 }
             }

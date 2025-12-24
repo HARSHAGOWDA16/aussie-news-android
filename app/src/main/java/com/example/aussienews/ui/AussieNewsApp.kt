@@ -7,20 +7,23 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.aussienews.ui.auth.AuthViewModel
 import com.example.aussienews.ui.auth.LoginScreen
 import com.example.aussienews.ui.screens.*
 
 @Composable
-fun AussieNewsApp() {
-    var isLoggedIn by remember { mutableStateOf(false) }
+fun AussieNewsApp( authViewModel: AuthViewModel = viewModel()
+) {
+    val isLoggedIn by authViewModel.isLoggedIn.collectAsState()
 
     if (!isLoggedIn) {
         LoginScreen(
-            onLoginSuccess = { isLoggedIn = true }
+            onLoginSuccess = { authViewModel.login() }
         )
     } else {
         MainAppContent(
-            onLogout = { isLoggedIn = false }
+            onLogout = { authViewModel.logout() }
         )
     }
 }

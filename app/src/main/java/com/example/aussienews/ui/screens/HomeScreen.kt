@@ -12,11 +12,14 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.aussienews.data.model.Article
 import com.example.aussienews.ui.components.ArticleCard
+import com.example.aussienews.ui.feature.article.ArticleDetailScreen
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = viewModel()
-) {
+    viewModel: HomeViewModel = viewModel(),
+    onArticleClick: (Article) -> Unit
+)
+ {
     val articles by viewModel.articles.collectAsState()
     val loading by viewModel.loading.collectAsState()
     var selectedArticle by remember { mutableStateOf<Article?>(null) }
@@ -46,7 +49,7 @@ fun HomeScreen(
                     items(articles) { article ->
                         ArticleCard(
                             article = article,
-                            onClick = { selectedArticle = it }
+                            onClick = { onArticleClick(article) }
                         )
                     }
                 }

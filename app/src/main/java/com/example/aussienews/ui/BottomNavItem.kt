@@ -7,12 +7,12 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.ui.graphics.vector.ImageVector
 
-sealed class BottomNavItem(
+enum class BottomNavItem(
     val title: String,
-    val icon: ImageVector
+    val icon: ImageVector,
+    val route: String
 ) {
-    object Home : BottomNavItem("Home", Icons.Filled.Home)
-    object Search : BottomNavItem("Search", Icons.Filled.Search)
-
-    object Profile : BottomNavItem("Profile", Icons.Filled.Person)
+    Home("Home", Icons.Filled.Home, "home"),
+    Search("Search", Icons.Filled.Search, "search"),
+    Profile("Profile", Icons.Filled.Person, "profile")
 }

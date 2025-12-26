@@ -18,10 +18,10 @@ import kotlinx.coroutines.delay
 @Composable
 fun ArticleDetailScreen(
     article: Article,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    viewModel: ArticleDetailViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-    var isSummarizing by remember { mutableStateOf(false) }
-    var aiSummary by remember { mutableStateOf<String?>(null) }
+    val summaryState by viewModel.summaryState.collectAsState()
 
     Scaffold(
         topBar = {
@@ -29,10 +29,7 @@ fun ArticleDetailScreen(
                 title = { Text(text = "Article") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(
-                            imageVector = Icons.Default.ArrowBack,
-                            contentDescription = "Back"
-                        )
+                        Icon(Icons.Default.ArrowBack, contentDescription = "Back")
                     }
                 }
             )
@@ -46,10 +43,9 @@ fun ArticleDetailScreen(
                 .verticalScroll(rememberScrollState())
         ) {
 
-            // 🖼 Article image
-            article.imageUrl?.let { imageUrl ->
+            article.imageUrl?.let {
                 AsyncImage(
-                    model = imageUrl,
+                    model = it,
                     contentDescription = article.title,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -60,7 +56,6 @@ fun ArticleDetailScreen(
 
             Column(modifier = Modifier.padding(16.dp)) {
 
-                // 📰 Headline
                 Text(
                     text = article.title,
                     style = MaterialTheme.typography.headlineSmall
@@ -68,12 +63,8 @@ fun ArticleDetailScreen(
 
                 Spacer(modifier = Modifier.height(12.dp))
 
-                // 📝 Description
                 article.description?.let {
-                    Text(
-                        text = it,
-                        style = MaterialTheme.typography.bodyLarge
-                    )
+                    Text(text = it, style = MaterialTheme.typography.bodyLarge)
                 }
 
                 Spacer(modifier = Modifier.height(24.dp))
@@ -81,46 +72,34 @@ fun ArticleDetailScreen(
                 // 🤖 AI Summary Button
                 Button(
                     onClick = {
-                        isSummarizing = true
-                        aiSummary = null
-                    },
-                    enabled = !isSummarizing,
-                    modifier = Modifier.fillMaxWidth()
+                        viewModel.generateSummary(
+                            article.title,
+                            article.description
+                        )
+                    }
                 ) {
-                    Text("AI Summary")
+                    Text("Summarize with AI")
                 }
 
-                // ⏳ Loading
-                if (isSummarizing) {
-                    Spacer(modifier = Modifier.height(16.dp))
-                    CircularProgressIndicator()
-                }
+                Spacer(modifier = Modifier.height(16.dp))
 
-                // 🧠 AI Summary Result (mock)
-                aiSummary?.let { summary ->
-                    Spacer(modifier = Modifier.height(24.dp))
-                    Card {
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(
-                                text = "AI Summary",
-                                style = MaterialTheme.typography.titleMedium
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(text = summary)
-                        }
+                when (summaryState) {
+                    is SummaryUiState.Loading -> {
+                        CircularProgressIndicator()
                     }
-                }
-
-                // 🔁 Simulate AI response
-                LaunchedEffect(isSummarizing) {
-                    if (isSummarizing) {
-                        delay(1500) // simulate API call
-                        aiSummary =
-                            "• This article discusses a key recent development.\n" +
-                                    "• It highlights its impact on Australia.\n" +
-                                    "• Experts suggest this may influence upcoming decisions."
-                        isSummarizing = false
+                    is SummaryUiState.Success -> {
+                        Text(
+                            text = (summaryState as SummaryUiState.Success).summary,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
                     }
+                    is SummaryUiState.Error -> {
+                        Text(
+                            text = "Failed to generate summary",
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                    else -> {}
                 }
             }
         }

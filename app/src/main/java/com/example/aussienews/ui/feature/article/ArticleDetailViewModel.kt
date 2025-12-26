@@ -2,31 +2,38 @@ package com.example.aussienews.ui.feature.article
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.aussienews.data.repository.AiSummaryRepository
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class ArticleDetailViewModel(
-    private val repository: AiSummaryRepository
-) : ViewModel() {
+sealed class SummaryUiState {
+    object Idle : SummaryUiState()
+    object Loading : SummaryUiState()
+    data class Success(val summary: String) : SummaryUiState()
+    data class Error(val message: String) : SummaryUiState()
+}
 
-    private val _summary = MutableStateFlow<String?>(null)
-    val summary = _summary.asStateFlow()
+class ArticleDetailViewModel : ViewModel() {
 
-    private val _loading = MutableStateFlow(false)
-    val loading = _loading.asStateFlow()
+    private val _summaryState =
+        MutableStateFlow<SummaryUiState>(SummaryUiState.Idle)
+    val summaryState: StateFlow<SummaryUiState> = _summaryState
 
-    fun generateSummary(text: String) {
+    fun generateSummary(title: String, description: String?) {
         viewModelScope.launch {
-            _loading.value = true
-            try {
-                _summary.value = repository.summarize(text)
-            } catch (e: Exception) {
-                _summary.value = "Failed to generate summary"
-            } finally {
-                _loading.value = false
-            }
+            _summaryState.value = SummaryUiState.Loading
+
+            // 🔹 TEMP: simulate AI call
+            delay(1500)
+
+            _summaryState.value = SummaryUiState.Success(
+                summary = """
+                • This article discusses key developments related to "$title".
+                • It highlights recent events and their potential impact.
+                • The news is relevant in the current Australian context.
+                """.trimIndent()
+            )
         }
     }
 }

@@ -5,6 +5,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 
 enum class BottomNavItem(
@@ -13,6 +15,6 @@ enum class BottomNavItem(
     val route: String
 ) {
     Home("Home", Icons.Filled.Home, "home"),
-    Search("Search", Icons.Filled.Search, "search"),
-    Profile("Profile", Icons.Filled.Person, "profile")
+    Explore("Explore", Icons.Filled.Star, "explore"),
+    Settings("Settings", Icons.Filled.Settings, "setting")
 }

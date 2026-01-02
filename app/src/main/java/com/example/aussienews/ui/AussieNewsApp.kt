@@ -16,6 +16,7 @@ import com.example.aussienews.data.model.Article
 import com.example.aussienews.ui.auth.AuthViewModel
 import com.example.aussienews.ui.auth.LoginScreen
 import com.example.aussienews.ui.feature.article.ArticleDetailScreen
+import com.example.aussienews.ui.screens.ExploreScreen
 import com.example.aussienews.ui.screens.HomeScreen
 import com.example.aussienews.ui.screens.ProfileScreen
 import com.example.aussienews.ui.screens.SearchScreen
@@ -43,8 +44,8 @@ fun MainAppContent(
 ) {
     val items = listOf(
         BottomNavItem.Home,
-        BottomNavItem.Search,
-        BottomNavItem.Profile
+        BottomNavItem.Explore,
+        BottomNavItem.Settings
     )
 
     var selectedItem by remember { mutableStateOf<BottomNavItem>(BottomNavItem.Home) }
@@ -96,8 +97,8 @@ fun MainAppContent(
                         }
                     )
 
-                BottomNavItem.Search -> SearchScreen()
-                BottomNavItem.Profile -> ProfileScreen(onLogout)
+                BottomNavItem.Explore -> ExploreScreen()
+                BottomNavItem.Settings -> ProfileScreen(onLogout)
             }
         }
     }

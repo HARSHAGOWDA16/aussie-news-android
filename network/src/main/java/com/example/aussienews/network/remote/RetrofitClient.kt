@@ -1,4 +1,4 @@
-package com.example.aussienews.data.remote
+package com.example.aussienews.network.remote
 
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

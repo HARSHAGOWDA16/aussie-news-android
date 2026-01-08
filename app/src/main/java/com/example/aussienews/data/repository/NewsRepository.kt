@@ -1,8 +1,7 @@
 package com.example.aussienews.data.repository
 
 import com.example.aussienews.data.model.Article
-import com.example.aussienews.data.remote.ApiConfig
-import com.example.aussienews.data.remote.NewsApi
+import com.example.aussienews.network.remote.NewsApi
 
 class NewsRepository(
     private val api: NewsApi

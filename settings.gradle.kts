@@ -21,3 +21,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "AussieNews"
 include(":app")
+include(":network")

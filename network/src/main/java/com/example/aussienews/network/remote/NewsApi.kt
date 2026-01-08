@@ -1,6 +1,7 @@
-package com.example.aussienews.data.remote
+package com.example.aussienews.network.remote
 
-import com.example.aussienews.data.model.NewsResponse
+import com.example.aussienews.network.model.NewsResponse
+
 import retrofit2.http.GET
 import retrofit2.http.Query
 

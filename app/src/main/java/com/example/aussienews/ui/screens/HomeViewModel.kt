@@ -3,9 +3,9 @@ package com.example.aussienews.ui.screens
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.aussienews.data.model.Article
-import com.example.aussienews.data.remote.ApiConfig
-import com.example.aussienews.data.remote.RetrofitClient
 import com.example.aussienews.data.repository.NewsRepository
+import com.example.aussienews.network.remote.RetrofitClient
+import com.example.aussienews.network.remote.ApiConfig
 import com.example.aussienews.ui.model.NewsCategory
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

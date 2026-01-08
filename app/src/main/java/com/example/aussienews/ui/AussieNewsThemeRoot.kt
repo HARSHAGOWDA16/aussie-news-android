@@ -1,5 +1,6 @@
 package com.example.aussienews.ui
 
+import SearchBottomSheet
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,7 +12,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.compose.*
 import com.example.aussienews.data.model.Article
 import com.example.aussienews.ui.auth.AuthViewModel
 import com.example.aussienews.ui.auth.LoginScreen
@@ -19,10 +19,9 @@ import com.example.aussienews.ui.feature.article.ArticleDetailScreen
 import com.example.aussienews.ui.screens.ExploreScreen
 import com.example.aussienews.ui.screens.HomeScreen
 import com.example.aussienews.ui.screens.ProfileScreen
-import com.example.aussienews.ui.screens.SearchScreen
 
 @Composable
-fun AussieNewsApp(
+fun AussieNewsRoot(
     authViewModel: AuthViewModel = viewModel()
 ) {
     val isLoggedIn by authViewModel.isLoggedIn.collectAsState()
@@ -50,7 +49,7 @@ fun MainAppContent(
 
     var selectedItem by remember { mutableStateOf<BottomNavItem>(BottomNavItem.Home) }
     var selectedArticle by remember { mutableStateOf<Article?>(null) }
-
+    var showSearchSheet by remember { mutableStateOf(false) }
     Scaffold(
         bottomBar = {
             if (selectedArticle == null) { // hide bottom bar on detail screen
@@ -101,5 +100,10 @@ fun MainAppContent(
                 BottomNavItem.Settings -> ProfileScreen(onLogout)
             }
         }
+    }
+    if (showSearchSheet) {
+        SearchBottomSheet(
+            onDismiss = { showSearchSheet = false }
+        )
     }
 }

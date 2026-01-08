@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.aussienews.ui.AussieNewsApp
+import com.example.aussienews.ui.AussieNewsRoot
 import com.example.aussienews.ui.theme.AussieNewsTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             AussieNewsTheme {
-                AussieNewsApp()
+                AussieNewsRoot()
             }
         }
     }
